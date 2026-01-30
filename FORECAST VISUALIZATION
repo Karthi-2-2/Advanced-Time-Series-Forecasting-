@@ -1,0 +1,7 @@
+plt.figure(figsize=(10,4))
+plt.plot(y_test[:100], label="Actual")
+plt.plot(baseline.predict(X_test[:100]), label="Baseline")
+plt.plot(att_model.predict(X_test[:100]), label="Attention")
+plt.legend()
+plt.title("Forecast Comparison")
+plt.show()
