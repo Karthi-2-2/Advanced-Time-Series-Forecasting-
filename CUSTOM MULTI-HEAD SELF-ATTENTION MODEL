@@ -1,0 +1,16 @@
+class SelfAttention(layers.Layer):
+    def __init__(self, units):
+        super().__init__()
+        self.Wq = layers.Dense(units)
+        self.Wk = layers.Dense(units)
+        self.Wv = layers.Dense(units)
+
+    def call(self, x):
+        Q = self.Wq(x)
+        K = self.Wk(x)
+        V = self.Wv(x)
+
+        scores = tf.matmul(Q, K, transpose_b=True) / tf.sqrt(tf.cast(tf.shape(K)[-1], tf.float32))
+        weights = tf.nn.softmax(scores, axis=-1)
+        context = tf.matmul(weights, V)
+        return context, weights
