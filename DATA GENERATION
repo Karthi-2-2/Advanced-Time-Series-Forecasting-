@@ -1,0 +1,27 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+
+def generate_multivariate_series(n_steps=3500):
+    t = np.arange(n_steps)
+    
+    trend = 0.0005 * t
+    season1 = np.sin(2 * np.pi * t / 50)
+    season2 = np.cos(2 * np.pi * t / 100)
+    noise_scale = 0.1 + 0.0003 * t  # heteroscedastic noise
+    
+    f1 = season1 + trend + np.random.normal(0, noise_scale)
+    f2 = season2 + trend + np.random.normal(0, noise_scale)
+    f3 = 0.6 * f1 + 0.2 * f2 + np.random.normal(0, noise_scale)
+    f4 = np.sin(2 * np.pi * t / 25) + np.random.normal(0, noise_scale)
+    f5 = np.cos(2 * np.pi * t / 75) + np.random.normal(0, noise_scale)
+
+    return pd.DataFrame(np.vstack([f1, f2, f3, f4, f5]).T,
+                        columns=["f1", "f2", "f3", "f4", "f5"])
+
+df = generate_multivariate_series()
+print(df.shape)
+df.plot(figsize=(12,4), title="Synthetic Multivariate Time Series")
+plt.show()
