@@ -1,0 +1,13 @@
+inp = layers.Input(shape=X_train.shape[1:])
+x = layers.LSTM(64, return_sequences=True)(inp)
+att_out, att_weights = SelfAttention(64)(x)
+x = layers.GlobalAveragePooling1D()(att_out)
+out = layers.Dense(1)(x)
+
+att_model = models.Model(inp, out)
+att_model.compile(optimizer="adam", loss="mse")
+att_model.summary()
+
+att_model.fit(X_train, y_train,
+              validation_data=(X_test, y_test),
+              epochs=10, batch_size=32)
