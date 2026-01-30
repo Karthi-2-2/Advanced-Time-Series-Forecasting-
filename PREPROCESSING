@@ -1,0 +1,16 @@
+from sklearn.preprocessing import MinMaxScaler
+
+scaler = MinMaxScaler()
+scaled = scaler.fit_transform(df)
+
+def make_sequences(data, window=40):
+    X, y = [], []
+    for i in range(len(data) - window):
+        X.append(data[i:i+window])
+        y.append(data[i+window, 0])  # predict f1
+    return np.array(X), np.array(y)
+
+X, y = make_sequences(scaled, 40)
+split = int(0.8 * len(X))
+X_train, X_test = X[:split], X[split:]
+y_train, y_test = y[:split], y[split:]
