@@ -1,0 +1,11 @@
+att_extractor = models.Model(inputs=att_model.input,
+                             outputs=att_weights)
+
+sample_weights = att_extractor.predict(X_test[:1])[0]
+
+plt.imshow(sample_weights, cmap="viridis")
+plt.colorbar()
+plt.title("Attention Weights Across Time Steps")
+plt.xlabel("Key Time Step")
+plt.ylabel("Query Time Step")
+plt.show()
