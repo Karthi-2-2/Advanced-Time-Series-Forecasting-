@@ -1,0 +1,14 @@
+import tensorflow as tf
+from tensorflow.keras import layers, models
+
+baseline = models.Sequential([
+    layers.LSTM(64, input_shape=X_train.shape[1:]),
+    layers.Dense(1)
+])
+
+baseline.compile(optimizer="adam", loss="mse")
+baseline.summary()
+
+baseline.fit(X_train, y_train,
+             validation_data=(X_test, y_test),
+             epochs=10, batch_size=32)
